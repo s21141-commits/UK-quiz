@@ -60,6 +60,22 @@
     font-size:0.95rem;
     font-family:'Trebuchet MS', sans-serif;
   }
+  .music-btn{
+    margin-top:14px;
+    font-family:'Trebuchet MS', sans-serif;
+    font-size:0.82rem;
+    font-weight:bold;
+    background:#fff;
+    border:2px solid var(--navy);
+    color:var(--navy);
+    padding:7px 16px;
+    border-radius:20px;
+    cursor:pointer;
+  }
+  .music-btn.on{
+    background:var(--navy);
+    color:var(--cream);
+  }
 
   /* SETUP SCREEN */
   .panel{
@@ -228,11 +244,35 @@
     box-shadow:0 10px 30px rgba(10,31,68,0.06);
   }
   .result-emoji{font-size:3rem;margin-bottom:6px;}
+  .result-badge{
+    display:inline-block;
+    font-family:'Trebuchet MS', sans-serif;
+    font-weight:bold;
+    font-size:0.9rem;
+    padding:6px 16px;
+    border-radius:20px;
+    margin-bottom:10px;
+    letter-spacing:0.3px;
+  }
+  .result-badge.pass{background:#eaf7ee;color:#1e5c37;}
+  .result-badge.fail{background:#fdeceb;color:var(--red);}
   .result-score{
     font-size:2.4rem;
     color:var(--navy);
     font-weight:bold;
-    margin:8px 0 2px;
+    margin:4px 0 2px;
+  }
+  .result-percent{
+    font-family:'Trebuchet MS', sans-serif;
+    font-size:1.1rem;
+    color:var(--navy);
+    margin-bottom:4px;
+  }
+  .result-time{
+    font-family:'Trebuchet MS', sans-serif;
+    font-size:0.9rem;
+    color:#777;
+    margin-bottom:16px;
   }
   .result-msg{
     font-family:'Trebuchet MS', sans-serif;
@@ -264,6 +304,7 @@
     <div class="flagbar"><span></span><span></span><span></span></div>
     <h1>영국 탐험 퀴즈</h1>
     <p>분야와 난이도를 골라 영국 지식을 확인해 보세요</p>
+    <button id="musicBtn" class="music-btn">🔇 배경음악 켜기</button>
   </div>
 
   <!-- SETUP -->
@@ -296,7 +337,10 @@
   <div id="result" class="hidden">
     <div class="result-card">
       <div class="result-emoji" id="resultEmoji">🏆</div>
+      <div class="result-badge" id="resultBadge"></div>
       <div class="result-score" id="resultScore"></div>
+      <div class="result-percent" id="resultPercent"></div>
+      <div class="result-time" id="resultTime"></div>
       <div class="result-msg" id="resultMsg"></div>
       <div class="result-btns">
         <button id="retryBtn">같은 문제 다시</button>
@@ -365,7 +409,99 @@ const QUESTIONS = {
   }
 };
 
-let state = { cat:null, diff:null, idx:0, score:0, order:[] };
+let state = { cat:null, diff:null, idx:0, score:0, order:[], startTime:0 };
+
+/* ---------------- 배경음악 (영국풍 행진곡풍 멜로디, 자체 생성 · 파일 없음) ---------------- */
+let audioCtx = null;
+let masterGain = null;
+let musicPlaying = false;
+let musicTimer = null;
+let activeNodes = [];
+
+const NOTE_FREQ = {
+  C4:261.63, D4:293.66, E4:329.63, F4:349.23, G4:392.00, A4:440.00, B4:493.88,
+  C5:523.25, D5:587.33, E5:659.25, F5:698.46, G5:783.99, A5:880.00, B5:987.77
+};
+
+// 자체 제작한 영국풍 행진곡 느낌의 짧은 멜로디 루프 (실제 곡 아님, 저작권 없음)
+const MELODY = [
+  {n:'G4',d:0.30},{n:'G4',d:0.30},{n:'C5',d:0.45},{n:'E5',d:0.15},
+  {n:'D5',d:0.30},{n:'C5',d:0.30},{n:'E5',d:0.45},{n:'D5',d:0.15},
+  {n:'G4',d:0.30},{n:'G4',d:0.30},{n:'A4',d:0.30},{n:'B4',d:0.30},
+  {n:'C5',d:0.60},{n:'G4',d:0.60},
+  {n:'A4',d:0.30},{n:'A4',d:0.30},{n:'B4',d:0.30},{n:'C5',d:0.30},
+  {n:'D5',d:0.60},{n:'A4',d:0.60}
+];
+
+function playNote(freq, duration, startTime){
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = 'triangle';
+  osc.frequency.value = freq;
+  gain.gain.setValueAtTime(0, startTime);
+  gain.gain.linearRampToValueAtTime(0.14, startTime + 0.02);
+  gain.gain.linearRampToValueAtTime(0, startTime + duration);
+  osc.connect(gain);
+  gain.connect(masterGain);
+  osc.start(startTime);
+  osc.stop(startTime + duration + 0.02);
+  activeNodes.push(osc);
+  osc.onended = ()=>{
+    activeNodes = activeNodes.filter(n=>n!==osc);
+  };
+}
+
+function scheduleLoop(){
+  if(!musicPlaying) return;
+  let t = audioCtx.currentTime + 0.05;
+  let totalDur = 0;
+  MELODY.forEach(note=>{
+    playNote(NOTE_FREQ[note.n], note.d*0.95, t);
+    t += note.d;
+    totalDur += note.d;
+  });
+  musicTimer = setTimeout(scheduleLoop, totalDur*1000);
+}
+
+const musicBtn = document.getElementById('musicBtn');
+musicBtn.onclick = ()=>{
+  if(!audioCtx){
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    masterGain = audioCtx.createGain();
+    masterGain.gain.value = 1;
+    masterGain.connect(audioCtx.destination);
+  }
+  if(!musicPlaying){
+    musicPlaying = true;
+    audioCtx.resume();
+    scheduleLoop();
+    musicBtn.textContent = '🔊 배경음악 끄기';
+    musicBtn.classList.add('on');
+  } else {
+    musicPlaying = false;
+    clearTimeout(musicTimer);
+    const now = audioCtx.currentTime;
+    masterGain.gain.cancelScheduledValues(now);
+    masterGain.gain.setValueAtTime(masterGain.gain.value, now);
+    masterGain.gain.linearRampToValueAtTime(0, now + 0.03);
+    activeNodes.forEach(osc=>{
+      try{ osc.stop(now + 0.04); }catch(e){}
+    });
+    activeNodes = [];
+    setTimeout(()=>{
+      masterGain.gain.setValueAtTime(1, audioCtx.currentTime);
+    }, 60);
+    musicBtn.textContent = '🔇 배경음악 켜기';
+    musicBtn.classList.remove('on');
+  }
+};
+
+function formatTime(ms){
+  const totalSec = Math.floor(ms/1000);
+  const min = Math.floor(totalSec/60);
+  const sec = totalSec%60;
+  return `${min}분 ${sec.toString().padStart(2,'0')}초`;
+}
 
 /* ---------------- SETUP 화면 구성 ---------------- */
 const catGrid = document.getElementById('catGrid');
@@ -408,6 +544,7 @@ startBtn.onclick = ()=>{
   state.order = QUESTIONS[state.cat][state.diff];
   state.idx = 0;
   state.score = 0;
+  state.startTime = Date.now();
   document.getElementById('setup').classList.add('hidden');
   document.getElementById('quiz').classList.remove('hidden');
   document.getElementById('result').classList.add('hidden');
@@ -480,12 +617,23 @@ function showResult(){
   document.getElementById('result').classList.remove('hidden');
   const total = state.order.length;
   const score = state.score;
+  const percent = Math.round((score/total)*100);
+  const elapsed = Date.now() - state.startTime;
+  const isPass = percent >= 90;
+
   document.getElementById('resultScore').textContent = `${score} / ${total} 개 정답`;
+  document.getElementById('resultPercent').textContent = `정답률 ${percent}%`;
+  document.getElementById('resultTime').textContent = `걸린 시간: ${formatTime(elapsed)}`;
+
+  const badge = document.getElementById('resultBadge');
+  badge.textContent = isPass ? '✅ 성공 (90% 이상)' : '❌ 실패 (90% 미만)';
+  badge.className = 'result-badge ' + (isPass ? 'pass' : 'fail');
 
   let emoji, msg;
   if(score === total){ emoji='🏆'; msg='완벽해요! 영국 박사님이 따로 없네요!'; }
-  else if(score >= total*0.7){ emoji='🎉'; msg='아주 잘했어요! 조금만 더 하면 만점이에요.'; }
-  else if(score >= total*0.4){ emoji='👍'; msg='잘하고 있어요! 다시 한 번 도전해볼까요?'; }
+  else if(isPass){ emoji='🎉'; msg='아주 잘했어요! 90%를 넘겨서 성공이에요.'; }
+  else if(score >= total*0.7){ emoji='👍'; msg='조금만 더 하면 성공이에요! 다시 도전해볼까요?'; }
+  else if(score >= total*0.4){ emoji='💪'; msg='잘하고 있어요! 다시 한 번 도전해볼까요?'; }
   else { emoji='📚'; msg='조금 더 공부하고 다시 도전해봐요!'; }
   document.getElementById('resultEmoji').textContent = emoji;
   document.getElementById('resultMsg').textContent = msg;
@@ -494,6 +642,7 @@ function showResult(){
 document.getElementById('retryBtn').onclick = ()=>{
   state.idx = 0;
   state.score = 0;
+  state.startTime = Date.now();
   document.getElementById('result').classList.add('hidden');
   document.getElementById('quiz').classList.remove('hidden');
   renderQuestion();
