@@ -393,23 +393,74 @@ const QUESTIONS = {
     label: "상식",
     emoji: "💡",
     low: [
-      {q:"영국을 상징하는 동물은?", choices:["사자","판다","코알라","캥거루"], answer:0, explain:"사자는 영국 왕실 문장에도 등장하는 영국의 상징 동물이에요."},
-      {q:"영국의 화폐 단위는?", choices:["파운드","달러","유로","엔"], answer:0, explain:"영국은 유로존에 속하지 않고 '파운드(£)'를 사용해요."},
-      {q:"영국 국기의 별명은?", choices:["유니언 잭","성조기","태극기","일장기"], answer:0, explain:"영국 국기는 '유니언 잭(Union Jack)'이라고 불려요."},
-      {q:"런던에 있는 유명한 대관람차의 이름은?", choices:["런던 아이","자이언트 휠","빅휠파크","스카이휠"], answer:0, explain:"런던 아이(London Eye)는 템스강변에 있는 대형 관람차예요."},
-      {q:"영국의 유명한 시계탑이 있는 국회의사당 근처 랜드마크는?", choices:["빅벤","에펠탑","자유의 여신상","타워브리지만 해당"], answer:0, explain:"빅벤(Big Ben)은 영국 국회의사당 옆에 있는 유명한 시계탑이에요."}
+      {topic:"colony", q:"영국은 왜 '해가 지지 않는 나라'라고 불렸을까요?", choices:["세계 여러 곳에 식민지가 있어서","영국 날씨가 항상 맑아서","영국이 적도 지역에 있어서","영국에는 밤이 없어서"], answer:0, explain:"영국은 세계 곳곳에 식민지가 있어서, 한쪽이 밤이어도 다른 쪽은 항상 낮이었어요."},
+      {topic:"colony", q:"영국이 식민지를 만들기 시작한 시기는?", choices:["17세기부터","20세기부터","고대부터","21세기부터"], answer:0, explain:"영국은 17세기부터 세계 곳곳에 식민지를 만들기 시작했어요."},
+      {topic:"colony", q:"식민지란 무엇일까요?", choices:["다른 나라가 지배하는 땅","왕이 사는 궁전","전쟁이 일어난 곳","관광지로 유명한 섬"], answer:0, explain:"식민지는 다른 나라의 지배를 받는 땅을 말해요."},
+      {topic:"industrial", q:"산업혁명 때 새로 생긴 것은 무엇일까요?", choices:["증기 기관","스마트폰","자동차 내비게이션","인터넷"], answer:0, explain:"산업혁명 때 증기 기관이 새롭게 만들어져 산업이 크게 발전했어요."},
+      {topic:"industrial", q:"산업혁명이란 무엇일까요?", choices:["여러 산업이 새롭게 발전한 사건","왕이 바뀐 사건","전쟁이 끝난 사건","새로운 나라가 생긴 사건"], answer:0, explain:"산업혁명은 중공업, 증기 기관 등 여러 산업이 새롭게 발전하고 탄생한 사건이에요."},
+      {topic:"industrial", q:"영국이 세계 최초로 이끈 사건은 무엇일까요?", choices:["산업혁명","우주 탐사","올림픽 개최","인터넷 발명"], answer:0, explain:"영국은 제1, 2차 산업혁명을 세계에서 가장 먼저 이끌었어요."},
+      {topic:"war", q:"영국이 큰 피해를 입은 전쟁은 무엇일까요?", choices:["제1, 2차 세계대전","십자군 전쟁","트로이 전쟁","임진왜란"], answer:0, explain:"영국은 제1차, 제2차 세계대전을 겪으며 큰 피해를 입었어요."},
+      {topic:"war", q:"세계대전 후 영국 경제는 어떻게 되었을까요?", choices:["큰 타격을 입었다","더 크게 성장했다","전혀 변화가 없었다","오히려 부유해졌다"], answer:0, explain:"두 차례의 세계대전을 겪으며 영국 경제는 큰 타격을 입었어요."},
+      {topic:"identity", q:"영국을 상징하는 사람은 누구일까요?", choices:["왕(또는 여왕)","대통령","총리","시장"], answer:0, explain:"영국은 대통령이 아니라 왕이나 여왕이 나라를 상징해요."},
+      {topic:"identity", q:"영국의 정치 제도는 무엇일까요?", choices:["군주제","공화제","군사 정권","귀족 정치"], answer:0, explain:"영국은 왕이나 여왕이 있는 군주제 국가예요."},
+      {topic:"identity", q:"영국은 몇 개의 나라로 이루어져 있나요?", choices:["4개","1개","2개","7개"], answer:0, explain:"영국은 잉글랜드, 스코틀랜드, 웨일스, 북아일랜드 4개 나라로 이루어져 있어요."},
+      {topic:"identity", q:"'영어'라는 이름은 어디서 왔을까요?", choices:["잉글랜드(England)","미국","프랑스","그리스"], answer:0, explain:"영어(English)는 잉글랜드(England)라는 나라 이름에서 왔어요."},
+      {topic:"identity", q:"영어를 쓰는 나라로 알맞은 것은?", choices:["영국, 미국 등 여러 나라","영국에서만 쓴다","아무도 안 쓴다","딱 한 나라에서만 쓴다"], answer:0, explain:"영어는 영국, 미국 등 세계 여러 나라에서 쓰는 공통 언어예요."},
+      {topic:"identity", q:"영국 왕(여왕)이 하는 역할은 무엇일까요?", choices:["나라를 상징하는 역할","법을 직접 만드는 역할","군대를 직접 지휘하는 역할","세금을 직접 걷는 역할"], answer:0, explain:"영국 왕(여왕)은 실제 정치가 아니라 나라를 상징하는 역할을 해요."}
     ],
     high: [
-      {q:"영국의 공식 국가명칭은?", choices:["그레이트브리튼 및 북아일랜드 연합왕국","잉글랜드 공화국","브리튼 제국","웨일스 연방"], answer:0, explain:"영국의 정식 명칭은 '그레이트브리튼 및 북아일랜드 연합왕국(UK)'이에요."},
-      {q:"영국의 현재 정치 체제로 알맞은 것은?", choices:["입헌 군주제","절대 왕정","공화제","군사 정권"], answer:0, explain:"영국은 왕이 있지만 실제 정치는 의회가 하는 입헌 군주제 국가예요."},
-      {q:"영국 의회가 있는 건물의 이름은?", choices:["웨스트민스터 궁전","버킹엄 궁전","백악관","의사당 언덕"], answer:0, explain:"영국 국회의사당은 웨스트민스터 궁전(Palace of Westminster)이라고 불려요."},
-      {q:"영국에서 태어난 세계적인 물리학자로 만유인력을 발견한 사람은?", choices:["아이작 뉴턴","알베르트 아인슈타인","갈릴레오","찰스 다윈"], answer:0, explain:"아이작 뉴턴(Isaac Newton)은 영국 출신 과학자예요."},
-      {q:"템스강을 가로지르는 영국의 대표적인 다리 이름은?", choices:["타워브리지","금문교","브루클린브리지","자유의 다리"], answer:0, explain:"타워브리지(Tower Bridge)는 런던 템스강 위에 있는 상징적인 다리예요."}
+      {topic:"colony", q:"영국 영토가 지구 곳곳에 퍼져 있어서 생긴 표현은?", choices:["해가 지지 않는 나라","안개의 나라","신사의 나라","축구의 나라"], answer:0, explain:"영토가 지구 반대편까지 퍼져 있어 늘 어딘가는 낮이었기 때문에 생긴 표현이에요."},
+      {topic:"colony", q:"영국이 식민지를 만든 대륙으로 알맞은 것은?", choices:["아시아, 아메리카, 아프리카 등","유럽 대륙에만 만들었다","남극 대륙에만 만들었다","식민지를 만든 적이 없다"], answer:0, explain:"영국은 17세기 이후 아시아, 아메리카, 아프리카 등 여러 대륙에 식민지를 두었어요."},
+      {topic:"industrial", q:"산업혁명 때 발전한 산업으로 알맞은 것은?", choices:["중공업, 증기 기관, 전기 산업","농업 중심 경제로의 전환","어업 산업만 발전","관광 산업만 발전"], answer:0, explain:"산업혁명 시기에는 중공업, 증기 기관, 전기 산업 등이 크게 발전했어요."},
+      {topic:"industrial", q:"제1차 산업혁명에서 중심이 된 것은?", choices:["증기 기관","전기 산업","인터넷","원자력"], answer:0, explain:"제1차 산업혁명은 증기 기관을 중심으로 발전했어요."},
+      {topic:"industrial", q:"제2차 산업혁명에서 중심이 된 것은?", choices:["전기 산업","증기 기관","인공지능","우주 산업"], answer:0, explain:"제2차 산업혁명은 전기 산업과 중화학 공업을 중심으로 발전했어요."},
+      {topic:"industrial", q:"영국이 산업혁명을 이끌 수 있었던 이유 중 하나는?", choices:["석탄과 철 같은 자원이 풍부해서","인구가 매우 적어서","농업만 발달해서","날씨가 따뜻해서"], answer:0, explain:"영국은 석탄, 철 같은 자원이 풍부해서 산업혁명을 이끌기 좋았어요."},
+      {topic:"war", q:"영국이 세계대전으로 큰 타격을 입은 이유는?", choices:["전쟁에 많은 돈과 자원을 썼기 때문","세계대전과 관련이 없어서","오히려 무역이 크게 늘어서","식민지가 갑자기 늘어서"], answer:0, explain:"전쟁에 많은 비용과 자원을 쓰고, 산업 시설과 인력에 큰 피해를 입었기 때문이에요."},
+      {topic:"war", q:"세계대전 후 영국의 식민지들은 어떻게 되었을까요?", choices:["하나둘 독립하기 시작했다","식민지가 더 늘어났다","아무 변화가 없었다","모두 영국의 일부가 되었다"], answer:0, explain:"세계대전 이후 영국의 힘이 약해지면서 식민지들이 하나둘 독립하기 시작했어요."},
+      {topic:"identity", q:"왕이 있지만 실제 정치는 의회가 하는 제도는?", choices:["입헌 군주제","절대 왕정","공화제","군사 독재"], answer:0, explain:"영국은 왕이 있지만 실제 정치는 의회가 이끄는 입헌 군주제 국가예요."},
+      {topic:"identity", q:"유니언 잭에 들어있지 않은 국기는?", choices:["아일랜드(남부, 독립국)","스코틀랜드","잉글랜드","북아일랜드"], answer:0, explain:"유니언 잭은 영국을 이루는 4개 나라의 국기가 합쳐진 것으로, 별개의 독립국인 아일랜드는 포함되지 않아요."},
+      {topic:"identity", q:"'English'라는 단어는 어떻게 만들어졌을까요?", choices:["England + ish","England + an","Eng + lish","특별한 규칙 없이 만들어짐"], answer:0, explain:"English는 England(잉글랜드)에 '~의 것'이라는 뜻의 -ish가 붙어 만들어졌어요."},
+      {topic:"identity", q:"영어가 세계 여러 나라에서 쓰이게 된 것과 관련 있는 것은?", choices:["영국의 식민지 확장","영어가 배우기 가장 쉬운 언어라서","영어 사용 국가가 원래 하나였어서","영국의 날씨가 좋아서"], answer:0, explain:"영국이 과거 여러 식민지를 두며 영향력을 넓혔기 때문에 영어가 널리 쓰이게 됐어요."},
+      {topic:"identity", q:"영국 국기에는 몇 개 나라의 국기가 합쳐져 있나요?", choices:["4개","1개","2개","6개"], answer:0, explain:"유니언 잭은 잉글랜드, 스코틀랜드, 웨일스, 북아일랜드 4개 나라의 국기가 합쳐진 것이에요."},
+      {topic:"industrial", q:"산업혁명과 식민지의 관계로 알맞은 것은?", choices:["식민지에서 원료를 가져와 제품을 만들어 팔았다","산업혁명과 식민지는 전혀 관련이 없다","식민지에서 만든 제품을 영국이 사왔다","식민지가 산업혁명을 방해했다"], answer:0, explain:"영국은 식민지에서 원료를 가져오고, 만든 제품을 다시 식민지에 팔았어요."},
+      {topic:"combined", q:"영국 역사의 흐름으로 알맞은 순서는?", choices:["식민지 확장 → 산업혁명 → 세계대전","세계대전 → 식민지 확장 → 산업혁명","산업혁명 → 세계대전 → 식민지 확장","세계대전 → 산업혁명 → 식민지 확장"], answer:0, explain:"영국은 17세기 식민지 확장, 산업혁명, 그리고 세계대전으로 인한 경제 타격 순서를 겪었어요."}
     ]
   }
 };
 
 let state = { cat:null, diff:null, idx:0, score:0, order:[], startTime:0 };
+
+function shuffleArray(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// 같은 소주제(topic)의 문제는 서로 뭉쳐서 나오지만, 소주제 묶음의 순서와
+// 각 문제의 선택지 순서(정답 위치)는 매번 랜덤으로 섞이도록 구성
+function buildQuizOrder(rawList){
+  const groups = [];
+  const groupIndexOf = {};
+  rawList.forEach((item, idx)=>{
+    const key = item.topic || ('__single_' + idx);
+    if(!(key in groupIndexOf)){
+      groupIndexOf[key] = groups.length;
+      groups.push([]);
+    }
+    groups[groupIndexOf[key]].push(item);
+  });
+  const shuffledGroups = shuffleArray(groups);
+  const flat = shuffledGroups.flat();
+  return flat.map(item=>{
+    const correctText = item.choices[item.answer];
+    const shuffledChoices = shuffleArray(item.choices);
+    const newAnswer = shuffledChoices.indexOf(correctText);
+    return { q:item.q, choices:shuffledChoices, answer:newAnswer, explain:item.explain };
+  });
+}
 
 /* ---------------- 배경음악 (영국풍 행진곡풍 멜로디, 자체 생성 · 파일 없음) ---------------- */
 let audioCtx = null;
@@ -463,14 +514,51 @@ function scheduleLoop(){
   musicTimer = setTimeout(scheduleLoop, totalDur*1000);
 }
 
-const musicBtn = document.getElementById('musicBtn');
-musicBtn.onclick = ()=>{
+function ensureAudioCtx(){
   if(!audioCtx){
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     masterGain = audioCtx.createGain();
     masterGain.gain.value = 1;
     masterGain.connect(audioCtx.destination);
   }
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+}
+
+function playFxTone(freq, start, dur, type, vol){
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = type;
+  osc.frequency.value = freq;
+  gain.gain.setValueAtTime(0, start);
+  gain.gain.linearRampToValueAtTime(vol, start + 0.02);
+  gain.gain.linearRampToValueAtTime(0, start + dur);
+  osc.connect(gain);
+  gain.connect(audioCtx.destination); // 배경음악과 별도로 항상 들리도록 destination에 직접 연결
+  osc.start(start);
+  osc.stop(start + dur + 0.02);
+}
+
+function playSuccessSound(){
+  ensureAudioCtx();
+  const t = audioCtx.currentTime;
+  // 상승하는 승리 아르페지오 (C5-E5-G5-C6)
+  [523.25, 659.25, 783.99, 1046.50].forEach((freq, i)=>{
+    playFxTone(freq, t + i*0.13, 0.28, 'triangle', 0.2);
+  });
+}
+
+function playFailSound(){
+  ensureAudioCtx();
+  const t = audioCtx.currentTime;
+  // 하강하는 낮은 부저음
+  playFxTone(220, t, 0.18, 'sawtooth', 0.16);
+  playFxTone(185, t + 0.15, 0.18, 'sawtooth', 0.16);
+  playFxTone(140, t + 0.30, 0.35, 'sawtooth', 0.16);
+}
+
+const musicBtn = document.getElementById('musicBtn');
+musicBtn.onclick = ()=>{
+  ensureAudioCtx();
   if(!musicPlaying){
     musicPlaying = true;
     audioCtx.resume();
@@ -541,7 +629,7 @@ function checkReady(){
 }
 
 startBtn.onclick = ()=>{
-  state.order = QUESTIONS[state.cat][state.diff];
+  state.order = buildQuizOrder(QUESTIONS[state.cat][state.diff]);
   state.idx = 0;
   state.score = 0;
   state.startTime = Date.now();
@@ -629,6 +717,8 @@ function showResult(){
   badge.textContent = isPass ? '✅ 성공 (90% 이상)' : '❌ 실패 (90% 미만)';
   badge.className = 'result-badge ' + (isPass ? 'pass' : 'fail');
 
+  if(isPass){ playSuccessSound(); } else { playFailSound(); }
+
   let emoji, msg;
   if(score === total){ emoji='🏆'; msg='완벽해요! 영국 박사님이 따로 없네요!'; }
   else if(isPass){ emoji='🎉'; msg='아주 잘했어요! 90%를 넘겨서 성공이에요.'; }
@@ -640,6 +730,7 @@ function showResult(){
 }
 
 document.getElementById('retryBtn').onclick = ()=>{
+  state.order = buildQuizOrder(QUESTIONS[state.cat][state.diff]);
   state.idx = 0;
   state.score = 0;
   state.startTime = Date.now();
